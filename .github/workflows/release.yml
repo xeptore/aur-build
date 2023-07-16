@@ -50,6 +50,7 @@ jobs:
       - name: Generate Standard PKGBUILD
         run: |
           VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh > standard.PKGBUILD
+          cat standard.PKGBUILD
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
@@ -73,6 +74,7 @@ jobs:
       - name: Generate Extended PKGBUILD
         run: |
           VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh > extended.PKGBUILD
+          cat extended.PKGBUILD
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
