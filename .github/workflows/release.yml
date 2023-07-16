@@ -56,6 +56,10 @@ jobs:
           fetch-depth: 0
       - name: Generate Standard PKGBUILD
         run: |
+          export TMP_1=${{ github.event_name == 'push' }}
+          export TMP_2=${{ github.event_name == 'scheduled' }}
+          echo "$TMP_1"
+          echo "$TMP_2"
           VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh > PKGBUILD
           cat PKGBUILD
       - name: Publish to AUR
