@@ -1,10 +1,14 @@
 name: Release
 on:
   schedule:
-    - cron: "0 */4 * * *"
+    - cron: "23 */4 * * *"
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/release.yml
+      - generate-extended-pkgbuild.sh
+      - generate-standard-pkgbuild.sh
 concurrency:
   cancel-in-progress: true
   group: ${{ format('{0}-{1}', github.event_name, github.ref_name) }}
