@@ -1,5 +1,11 @@
 #!/bin/sh
 
+set -o nounset
+if [ -z "$VERSION_NUMBER" ]; then
+  echo "Variable 'VERSION_NUMBER' must be set in the environment" 1>&2
+  exit 1
+fi
+
 source_x86_64="https://github.com/gohugoio/hugo/releases/download/v${VERSION_NUMBER}/hugo_extended_${VERSION_NUMBER}_linux-amd64.tar.gz"
 source_aarch64="https://github.com/gohugoio/hugo/releases/download/v${VERSION_NUMBER}/hugo_extended_${VERSION_NUMBER}_linux-arm64.tar.gz"
 
