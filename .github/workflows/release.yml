@@ -1,0 +1,84 @@
+name: Release
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  push:
+    branches:
+      - main
+concurrency:
+  cancel-in-progress: true
+  group: ${{ format('{0}-{1}', github.event_name, github.ref_name) }}
+permissions:
+  contents: none
+  deployments: none
+  actions: none
+  checks: none
+  discussions: none
+  id-token: none
+  issues: none
+  packages: none
+  pages: none
+  pull-requests: none
+  repository-projects: none
+  security-events: none
+  statuses: none
+jobs:
+  get_latest_hugo_tag:
+    name: Get Latest Hugo Release Tag
+    outputs:
+      tag: ${{ steps.get.outputs.tag }}
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Latest Hugo Release Tag
+        id: get
+        run: |
+          export tag=$(wget -qO- https://api.github.com/repos/gohugoio/hugo/releases | jq -r 'first(.[] | select(.prerelease == false and .draft == false)) | .tag_name' | sed s/^v//)
+          echo "::info title='Hugo Latest Release'::Found ${tag} latest release tag name"
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+  release_standard_edition:
+    name: Release Standard Edition
+    permissions:
+      contents: read
+    needs:
+      - get_latest_hugo_tag
+    timeout-minutes: 7
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Generate Standard PKGBUILD
+        run: |
+          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh > standard.PKGBUILD
+      - name: Publish to AUR
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        with:
+          pkgname: gohugo-bin
+          pkgbuild: ./standard.PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          test: true
+  release_extended_edition:
+    name: Release Extended Edition
+    permissions:
+      contents: read
+    needs:
+      - get_latest_hugo_tag
+    timeout-minutes: 7
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Generate Extended PKGBUILD
+        run: |
+          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh > extended.PKGBUILD
+      - name: Publish to AUR
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        with:
+          pkgname: gohugo-extended-bin
+          pkgbuild: ./extended.PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          test: true
