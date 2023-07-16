@@ -5,8 +5,8 @@ source_aarch64="https://github.com/gohugoio/hugo/releases/download/v${VERSION_NU
 
 wget "https://github.com/gohugoio/hugo/releases/download/v${VERSION_NUMBER}/hugo_${VERSION_NUMBER}_checksums.txt" -O checksums.txt
 
-md5sums_x86_64="$(grep "hugo_${VERSION_NUMBER}_linux-amd64.tar.gz" checksums.txt | cut -d ' ' -f 1)"
-md5sums_aarch64="$(grep "hugo_${VERSION_NUMBER}_linux-arm64.tar.gz" checksums.txt | cut -d ' ' -f 1)"
+sha256sums_x86_64="$(grep "hugo_${VERSION_NUMBER}_linux-amd64.tar.gz" checksums.txt | cut -d ' ' -f 1)"
+sha256sums_aarch64="$(grep "hugo_${VERSION_NUMBER}_linux-arm64.tar.gz" checksums.txt | cut -d ' ' -f 1)"
 
 cat <<EOF
 # Maintainer: xeptore
@@ -23,8 +23,8 @@ conflicts=('hugo')
 provides=('hugo')
 source_x86_64=('${source_x86_64}')
 source_aarch64=('${source_aarch64}')
-md5sums_x86_64=('${md5sums_x86_64}')
-md5sums_aarch64=('${md5sums_aarch64}')
+sha256sums_x86_64=('${sha256sums_x86_64}')
+sha256sums_aarch64=('${sha256sums_aarch64}')
 
 package() {
   cd "\${srcdir}"
