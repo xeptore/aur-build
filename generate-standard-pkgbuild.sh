@@ -4,7 +4,6 @@ cat <<EOF
 # Maintainer: xeptore
 pkgname=gohugo-bin
 pkgver=${VERSION_NUMBER}
-pkgrel=1
 pkgdesc="Hugo - The world's fastest framework for building websites"
 arch=('x86_64' 'aarch64')
 url="https://gohugo.io/"

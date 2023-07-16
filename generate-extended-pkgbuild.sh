@@ -4,8 +4,7 @@ cat <<EOF
 # Maintainer: xeptore
 pkgname=gohugo-extended-bin
 pkgver=${VERSION_NUMBER}
-pkgrel=1
-pkgdesc="Hugo - The world's fastest framework for building websites (Extended)"
+pkgdesc="Hugo - The world's fastest framework for building websites (Extended Edition)"
 arch=('x86_64' 'aarch64')
 url="https://gohugo.io/"
 license=('Apache 2.0')
