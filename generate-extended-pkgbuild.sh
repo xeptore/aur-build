@@ -14,7 +14,7 @@ cat <<EOF
 pkgname=gohugo-extended-bin
 pkgver=${VERSION_NUMBER}
 pkgrel=3
-pkgdesc='Hugo - The world's fastest framework for building websites (Extended Edition)'
+pkgdesc="Hugo - The world's fastest framework for building websites (Extended Edition)"
 arch=('x86_64' 'aarch64')
 url='https://gohugo.io/'
 license=('Apache')
