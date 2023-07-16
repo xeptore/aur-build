@@ -47,6 +47,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          clean: true
+          fetch-depth: 0
       - name: Generate Standard PKGBUILD
         run: |
           VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh > standard.PKGBUILD
@@ -72,6 +75,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          clean: true
+          fetch-depth: 0
       - name: Generate Extended PKGBUILD
         run: |
           VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh > extended.PKGBUILD
