@@ -61,7 +61,6 @@ build() {
 
 package() {
   cd "\${srcdir}"
-  install -Dm644 LICENSE -t "\${pkgdir}/usr/share/licenses/hugo"
   install -Dm755 hugo "\${pkgdir}/usr/bin/hugo"
   install -Dm644 LICENSE "\${pkgdir}/usr/share/licenses/hugo/LICENSE"
   install -Dm644 man/*.1 -t "\${pkgdir}"/usr/share/man/man1/
