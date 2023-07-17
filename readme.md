@@ -2,8 +2,6 @@
 
 Builds the latest release of [Hugo](https://gohugo.io) static website generator on schedule, and publishes to the [AUR](https://aur.archlinux.org/).
 
----
-
 ## Installation
 
 Packages are available for install on the AUR:
