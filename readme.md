@@ -14,5 +14,10 @@ You can install it using any AUR helper you prefer, e.g., [`yay`](https://github
 ## Features
 
 - Automatically versioned, and published based on upstream release
+- Support for `x86_64`, and `aarch64` architectures
 - Installs command line completions for `zsh`, `bash`, and `fish`
 - Installs man pages
+
+## Limitations
+
+- Only builds, and publishes the latest stable (non-prerelease, and non-draft) release of the upstream Hugo project repository
