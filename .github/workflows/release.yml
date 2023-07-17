@@ -59,7 +59,7 @@ jobs:
           if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
             export NO_PKGREL_INCREMENT=1
           fi
-          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh > PKGBUILD
+          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh
           cat PKGBUILD
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
@@ -90,7 +90,7 @@ jobs:
           if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
             export NO_PKGREL_INCREMENT=1
           fi
-          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh > PKGBUILD
+          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh
           cat PKGBUILD
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0

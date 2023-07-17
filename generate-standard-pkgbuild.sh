@@ -29,10 +29,10 @@ if [[ "$self_latest_version" != "${VERSION_NUMBER}" ]]; then
   pkgrel='1'
 elif [[ ! -v NO_PKGREL_INCREMENT ]]; then
   echo 'Incrementing pkgrel...'
-  pkgrel=$(( pkgrel + 1 ))
+  pkgrel=$((pkgrel + 1))
 fi
 
-cat <<EOF
+cat >PKGBUILD <<EOF
 # Maintainer: xeptore
 # Contributor: Porous3247 <pqtb3v7t at jasonyip1 dot anonaddy dot me>
 pkgname=${pkgname}
