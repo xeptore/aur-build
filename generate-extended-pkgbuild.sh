@@ -22,7 +22,7 @@ wget -q https://aur.archlinux.org/rpc/v5/info/${pkgname} --header='accept: appli
 pkgrel="$(jq -r '.results[0].Version' pkg-info.json | sed -n 's/^.*-//p')"
 echo "Got pkgrel $pkgrel on the AUR."
 
-self_latest_version="$(jq -r '.results[0].Version' pkg-info.json | sed -n 's/-[[:digit:]]$//p')"
+self_latest_version="$(jq -r '.results[0].Version' pkg-info.json | sed -n 's/-[[:digit:]]\+$//p')"
 echo "Got version $self_latest_version on the AUR."
 if [[ "$self_latest_version" != "${VERSION_NUMBER}" ]]; then
   echo 'Resetting pkgrel...'
