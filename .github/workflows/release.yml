@@ -71,34 +71,3 @@ jobs:
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
           allow_empty_commits: false
           test: true
-  release_extended_edition:
-    name: Release Extended Edition
-    permissions:
-      contents: read
-    needs:
-      - get_latest_hugo_tag
-    timeout-minutes: 7
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          clean: true
-          fetch-depth: 0
-      - name: Generate Extended PKGBUILD
-        run: |
-          if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
-            export NO_PKGREL_INCREMENT=1
-          fi
-          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh
-          cat PKGBUILD
-      - name: Publish to AUR
-        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
-        with:
-          pkgname: gohugo-extended-bin
-          pkgbuild: ./PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          allow_empty_commits: false
-          test: true
