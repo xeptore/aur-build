@@ -40,8 +40,8 @@ jobs:
           export tag=$(wget -qO- https://api.github.com/repos/gohugoio/hugo/releases | jq -r 'first(.[] | select(.prerelease == false and .draft == false)) | .tag_name' | sed s/^v//)
           echo "::notice title='Hugo Latest Release'::Found ${tag} latest release tag name"
           echo "tag=$tag" >> $GITHUB_OUTPUT
-  release_standard_edition:
-    name: Release Standard Edition
+  release_extended_edition:
+    name: Release Extended Edition
     permissions:
       contents: read
     needs:
@@ -54,17 +54,17 @@ jobs:
         with:
           clean: true
           fetch-depth: 0
-      - name: Generate Standard PKGBUILD
+      - name: Generate Extended PKGBUILD
         run: |
           if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
             export NO_PKGREL_INCREMENT=1
           fi
-          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-standard-pkgbuild.sh
+          VERSION_NUMBER=${{ needs.get_latest_hugo_tag.outputs.tag }} ./generate-extended-pkgbuild.sh
           cat PKGBUILD
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
-          pkgname: gohugo-bin
+          pkgname: gohugo-extended-bin
           pkgbuild: ./PKGBUILD
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
