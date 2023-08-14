@@ -81,7 +81,7 @@ jobs:
           if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
             export NO_PKGREL_INCREMENT=1
           fi
-          VERSION_NUMBER=${{ steps.get_latest_release.outputs.tag }} ./docker-credentials-pass-bin/pkgbuild.sh
+          VERSION_NUMBER=${{ steps.get_latest_release.outputs.tag }} ./docker-credential-pass-bin/pkgbuild.sh
           cat PKGBUILD
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
