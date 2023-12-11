@@ -7,9 +7,6 @@ if [[ ! -v VERSION_NUMBER ]]; then
   exit 1
 fi
 
-source_x86_64="https://github.com/gohugoio/hugo/releases/download/v${VERSION_NUMBER}/hugo_extended_${VERSION_NUMBER}_linux-amd64.tar.gz"
-source_aarch64="https://github.com/gohugoio/hugo/releases/download/v${VERSION_NUMBER}/hugo_extended_${VERSION_NUMBER}_linux-arm64.tar.gz"
-
 wget -q "https://github.com/gohugoio/hugo/releases/download/v${VERSION_NUMBER}/hugo_${VERSION_NUMBER}_checksums.txt" -O checksums.txt
 
 sha256sums_x86_64="$(grep "hugo_extended_${VERSION_NUMBER}_linux-amd64.tar.gz" checksums.txt | cut -d ' ' -f 1)"
@@ -46,8 +43,8 @@ license=('Apache')
 depends=('glibc')
 conflicts=('hugo')
 provides=('hugo')
-source_x86_64=('${source_x86_64}')
-source_aarch64=('${source_aarch64}')
+source_x86_64=("https://github.com/gohugoio/hugo/releases/download/v\${pkgver}/hugo_extended_\${pkgver}_linux-amd64.tar.gz")
+source_aarch64=("https://github.com/gohugoio/hugo/releases/download/v\${pkgver}/hugo_extended_\${pkgver}_linux-arm64.tar.gz")
 sha256sums_x86_64=('${sha256sums_x86_64}')
 sha256sums_aarch64=('${sha256sums_aarch64}')
 
