@@ -49,7 +49,7 @@ jobs:
           VERSION_NUMBER=${{ steps.get_latest_release.outputs.tag }} ./hugo/pkgbuild-extended.sh
           cat PKGBUILD
       - name: Publish to AUR
-        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        uses: xeptore/github-actions-deploy-aur@v1.0.0-beta
         with:
           pkgname: gohugo-extended-bin
           pkgbuild: ./PKGBUILD
@@ -84,7 +84,7 @@ jobs:
           VERSION_NUMBER=${{ steps.get_latest_release.outputs.tag }} ./docker-credential-pass-bin/pkgbuild.sh
           cat PKGBUILD
       - name: Publish to AUR
-        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        uses: xeptore/github-actions-deploy-aur@v1.0.0-beta
         with:
           pkgname: docker-credential-pass-bin
           pkgbuild: ./PKGBUILD
