@@ -37,7 +37,7 @@ jobs:
           echo "::notice title=Hugo Latest Release::Found ${tag} latest release tag name"
           echo "tag=$tag" >> $GITHUB_OUTPUT
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           clean: true
           fetch-depth: 0
@@ -59,7 +59,7 @@ jobs:
           allow_empty_commits: false
           test: true
   docker_credential_pass_bin_release:
-    name: Release
+    name: Docker Credential Pass Release
     permissions:
       contents: read
     timeout-minutes: 7
@@ -72,7 +72,7 @@ jobs:
           echo "::notice title=Upstream Latest Release::Found ${tag} latest release tag name"
           echo "tag=$tag" >> $GITHUB_OUTPUT
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           clean: true
           fetch-depth: 0
