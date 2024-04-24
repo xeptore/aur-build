@@ -111,11 +111,6 @@ jobs:
         with:
           clean: true
           fetch-depth: 0
-      - uses: actions/setup-go@v5
-        with:
-          go-version: stable
-          check-latest: true
-      - run: go version
       - name: Generate PKGBUILD
         run: |
           if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
@@ -132,4 +127,4 @@ jobs:
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
           allow_empty_commits: false
-          test: true
+          test: false
