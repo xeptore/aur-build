@@ -111,6 +111,11 @@ jobs:
         with:
           clean: true
           fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          check-latest: true
+      - run: go version
       - name: Generate PKGBUILD
         run: |
           if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
