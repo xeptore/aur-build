@@ -7,15 +7,16 @@ if [[ ! -v VERSION ]]; then
   exit 1
 fi
 
-source_x86_64="https://github.com/docker/docker-credential-helpers/releases/download/v${VERSION}/docker-credential-pass-v${VERSION}.linux-amd64"
+source_x86_64="https://github.com/docker/docker-credential-helpers/archive/refs/tags/v${VERSION}.tar.gz"
 license_file_url="https://raw.githubusercontent.com/docker/docker-credential-helpers/v${VERSION}/LICENSE"
 
-wget -q "https://github.com/docker/docker-credential-helpers/releases/download/v${VERSION}/checksums.txt" -O checksums.txt
+wget -q "$source_x86_64" -O source.tar.gz
 wget -q "$license_file_url" -O LICENSE
 
-sha256sums_x86_64="$(grep "docker-credential-pass-v${VERSION}.linux-amd64" checksums.txt | cut -d ' ' -f 1)"
+sha256sums_x86_64="$(sha256sum source.tar.gz | cut -d ' ' -f 1)"
 sha256sums_license="$(sha256sum LICENSE | cut -d ' ' -f 1)"
-pkgname='docker-credential-pass-bin'
+
+pkgname='docker-credential-pass'
 
 wget -q https://aur.archlinux.org/rpc/v5/info/${pkgname} --header='accept: application/json' -O pkg-info.json
 
@@ -34,30 +35,43 @@ fi
 
 cat >PKGBUILD <<EOF
 # Maintainer: Joel Noyce Barnham <joelnbarnham@gmail.com>
-# Contributor: xeptore <hello [ at ] xeptore [ dot ] dev>
+# Contributor: Magnus Bjerke Vik <mbvett@gmail.com>
 
 pkgname=${pkgname}
 pkgver=${VERSION}
 pkgrel=${pkgrel}
 pkgdesc='Store docker credentials using the Standard Unix Password Manager (pass)'
-arch=('x86_64')
+arch=(x86_64)
 url='https://github.com/docker/docker-credential-helpers'
 license=('MIT')
 depends=('pass')
-makedepends=()
-provides=("${pkgname%-bin}")
-conflicts=("${pkgname%-bin}")
+makedepends=('go')
+_gourl='github.com/docker/docker-credential-helpers'
 source_x86_64=(
-  'docker-credential-pass-v${VERSION}.linux-amd64::${source_x86_64}'
+  'docker-credential-helpers-v${VERSION}.tar.gz::${source_x86_64}'
   'LICENSE::${license_file_url}'
 )
 sha256sums_x86_64=(
   '${sha256sums_x86_64}'
   '${sha256sums_license}'
 )
+noextract=('docker-credential-helpers-v${VERSION}.tar.gz')
+install=\${pkgname}.install
+
+prepare() {
+  mkdir -p "\${srcdir}/src/\${_gourl}"
+  tar -x --strip-components=1 -C "\${srcdir}/src/\${_gourl}" -f "\${srcdir}/docker-credential-helpers-v${VERSION}.tar.gz"
+}
+
+build() {
+  cd "\${srcdir}/src/\${_gourl}"
+  GO111MODULE=off GOPATH="\${srcdir}" go install -v -x ./credentials
+  GO111MODULE=off GOPATH="\${srcdir}" make pass
+}
 
 package() {
-  install -D -m 0755 "\${srcdir}/docker-credential-pass-v\${pkgver}.linux-amd64" "\${pkgdir}/usr/bin/docker-credential-pass"
-  install -D -m 0644 "\${srcdir}/LICENSE" "\${pkgdir}/usr/share/licenses/\${pkgname}/LICENSE"
+  cd "\${srcdir}/src/\${_gourl}"
+  install -D -m 0755 bin/build/docker-credential-pass "\${pkgdir}/usr/bin/docker-credential-pass"
+  install -D -m 0644 LICENSE "\${pkgdir}/usr/share/licenses/\${pkgname}/LICENSE"
 }
 EOF
