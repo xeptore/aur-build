@@ -23,42 +23,6 @@ permissions:
   security-events: none
   statuses: none
 jobs:
-  hugo_extended_edition_release:
-    name: Release gohugo-extended-bin
-    permissions:
-      contents: read
-    timeout-minutes: 7
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get Latest Release Tag
-        id: get_latest_release
-        run: |
-          export tag=$(wget -qO- https://api.github.com/repos/gohugoio/hugo/releases | jq -r 'first(.[] | select(.prerelease == false and .draft == false)) | .tag_name' | sed s/^v//)
-          echo "::notice title=gohugo-extended-bin Latest Release::Found ${tag} latest release tag name"
-          echo "tag=$tag" >> $GITHUB_OUTPUT
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          clean: true
-          fetch-depth: 0
-      - name: Generate Extended PKGBUILD
-        run: |
-          if [[ '${{ github.event_name == 'schedule' }}' == 'true' ]]; then
-            export NO_PKGREL_INCREMENT=1
-          fi
-          VERSION=${{ steps.get_latest_release.outputs.tag }} ./gohugo-extended-bin/pkgbuild.sh
-          cat PKGBUILD
-      - name: Publish to AUR
-        uses: xeptore/github-actions-deploy-aur@v1.0.0-beta
-        with:
-          pkgname: gohugo-extended-bin
-          pkgbuild: ./PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          ssh_keyscan_types: rsa,ecdsa,ed25519
-          allow_empty_commits: false
-          test: true
   docker_credential_pass_bin_release:
     name: Release docker-credential-pass-bin
     permissions:
