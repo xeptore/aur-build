@@ -73,7 +73,7 @@ jobs:
           echo "::notice title=docker-credential-pass Latest Release::Found ${tag} latest release tag name"
           echo "tag=$tag" >> $GITHUB_OUTPUT
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           clean: true
           fetch-depth: 0
