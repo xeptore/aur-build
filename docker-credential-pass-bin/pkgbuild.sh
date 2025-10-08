@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -o pipefail
+set -Eexuo pipefail
 
 if [[ ! -v VERSION ]]; then
   echo "'VERSION' variable must be set in the environment." 1>&2

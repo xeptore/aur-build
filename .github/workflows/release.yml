@@ -33,11 +33,11 @@ jobs:
       - name: Get Latest Release Tag
         id: get_latest_release
         run: |
-          export tag=$(wget -qO- https://api.github.com/repos/docker/docker-credential-helpers/releases | jq -r 'first(.[] | select(.prerelease == false and .draft == false)) | .tag_name' | sed s/^v//)
+          export tag="$(wget -qO- 'https://api.github.com/repos/docker/docker-credential-helpers/releases/latest' | jq -r '.tag_name' | sed 's/^v//')"
           echo "::notice title=docker-credential-pass-bin Latest Release::Found ${tag} latest release tag name"
           echo "tag=$tag" >> $GITHUB_OUTPUT
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           clean: true
           fetch-depth: 0
