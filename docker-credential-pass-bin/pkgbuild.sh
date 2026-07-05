@@ -48,7 +48,7 @@ makedepends=()
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
 source_x86_64=(
-  'docker-credential-pass-v\${pkgver}.linux-amd64::${source_x86_64}'
+  'docker-credential-pass-v\${pkgver}.linux-amd64s::${source_x86_64}'
   'LICENSE::${license_file_url}'
 )
 sha256sums_x86_64=(
