@@ -48,7 +48,7 @@ depends=('pass')
 makedepends=('go')
 _gourl='github.com/docker/docker-credential-helpers'
 source_x86_64=(
-  'docker-credential-helpers-v\${pkgver}.tar.gz::${source_x86_64}'
+  "docker-credential-helpers-v\${pkgver}.tar.gz::${source_x86_64}"
   'LICENSE::${license_file_url}'
 )
 sha256sums_x86_64=(
